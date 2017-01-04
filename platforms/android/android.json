@@ -1,0 +1,40 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "res/xml/config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"EmailComposer\"><param name=\"android-package\" value=\"de.appplant.cordova.emailcomposer.EmailComposer\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "de.appplant.cordova.plugin.email-composer": {
+            "PACKAGE_NAME": "com.test.email"
+        }
+    },
+    "dependent_plugins": {},
+    "modules": [
+        {
+            "id": "de.appplant.cordova.plugin.email-composer.EmailComposer",
+            "file": "plugins/de.appplant.cordova.plugin.email-composer/www/email_composer.js",
+            "pluginId": "de.appplant.cordova.plugin.email-composer",
+            "clobbers": [
+                "cordova.plugins.email",
+                "plugin.email"
+            ]
+        }
+    ],
+    "plugin_metadata": {
+        "de.appplant.cordova.plugin.email-composer": "0.8.2"
+    }
+}
