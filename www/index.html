@@ -379,8 +379,9 @@
 			
 			function buildCsvFiles()
 			{
+				alert('test start');
+				alert(localStorage.roomList);
 				var arrRoomList = localStorage.roomList.split(';');
-				alert(arrRoomList);
 						
 				//handle email body user details
 				var strEmailBody = 'Name: '+localStorage.userName+' \n';
