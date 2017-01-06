@@ -355,7 +355,6 @@
 			function capturePhoto() 
 			{
 				if ("roomList" in localStorage) {
-					alert(localStorage.getItem("roomList"));
 					try
 					{
 						// Take picture using device camera and retrieve image as base64-encoded string
@@ -384,7 +383,7 @@
 			
 			function buildCsvFiles()
 			{
-				if (localStorage.getItem("roomList") !== "null") {
+				if ("roomList" in localStorage) {
 					alert(localStorage.roomList);
 					var arrRoomList = localStorage.roomList.split(';');
 							
