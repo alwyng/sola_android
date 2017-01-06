@@ -97,6 +97,9 @@
 						<script>
 							if (localStorage.getItem('isSubmit')==1) 
 							{
+								document.write('<div> Rooms captured: '+localStorage.roomList.split(', ')+'</div>');
+								document.write('<div> Total kWh: '+String(localStorage.kWh)+'</div>');
+							
 								document.write('<input type="button" class="button button-fill" onclick="capturePhoto()" value="Submit...">');
 								//document.write('<input type="button" class="button button-fill" onclick="androidNoPhoto()" value="Submit...">');
 								
@@ -384,7 +387,6 @@
 			function buildCsvFiles()
 			{
 				if ("roomList" in localStorage) {
-					alert(localStorage.roomList);
 					var arrRoomList = localStorage.roomList.split(';');
 							
 					//handle email body user details
