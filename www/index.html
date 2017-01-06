@@ -354,14 +354,18 @@
 			
 			function capturePhoto() 
 			{
-				try
-				{
-					// Take picture using device camera and retrieve image as base64-encoded string
-					navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,destinationType: Camera.DestinationType.DATA_URL });
-					//onPhotoDataSuccess(null);
-				}
-				catch(err) {
-					alert(err.message);
+				if (localStorage.getItem("roomList") !== "null") {
+					try
+					{
+						// Take picture using device camera and retrieve image as base64-encoded string
+						navigator.camera.getPicture(onPhotoDataSuccess, onFail, { quality: 50,destinationType: Camera.DestinationType.DATA_URL });
+						//onPhotoDataSuccess(null);
+					}
+					catch(err) {
+						alert(err.message);
+					}
+				} else {
+					alert('No room usage recorded');
 				}
 			}
 			
@@ -379,53 +383,59 @@
 			
 			function buildCsvFiles()
 			{
-				alert('test start');
-				alert(localStorage.roomList);
-				var arrRoomList = localStorage.roomList.split(';');
-						
-				//handle email body user details
-				var strEmailBody = 'Name: '+localStorage.userName+' \n';
-				strEmailBody += 'Surname: '+localStorage.userSurname+' \n';
-				strEmailBody += 'Email: '+localStorage.userEmail+' \n';
-			
-				//Key questions
-				var strKeyQuestions = 'Solar Geyser Size: '+localStorage.sizeSolGeyser+'\r\n';				
-				strKeyQuestions += 'Solar Geyser Quantity: '+localStorage.QtySolGeyser+'\r\n';					
-				strKeyQuestions += 'Electric Geyser Size: '+localStorage.SizeElecGeyser+'\r\n';				
-				strKeyQuestions += 'Electric Geyser Quantity: '+localStorage.QtyElecGeyser+'\r\n';				
-				strKeyQuestions += 'Gas Geyer Size: '+localStorage.SizeGasGeyser+'\r\n';				
-				strKeyQuestions += 'Gas Geyer Quantity: '+localStorage.QtyGasGeyser+'\r\n';					
-				strKeyQuestions += 'Heat Pump: '+localStorage.IsHeatPump+'\r\n';					
-				strKeyQuestions += 'Geyser Blanket: '+localStorage.IsBlanket+'\r\n';					
-				strKeyQuestions += 'Stove Type: '+localStorage.StoveType+'\r\n';					
-				strKeyQuestions += 'Oven Type: '+localStorage.OvenType+'\r\n';
-			
-				//Appliances
-				var strRoomUsage = '';
-				var arrRoomDetail;
+				if (localStorage.getItem("roomList") !== "null") {
+					alert(localStorage.roomList);
+					var arrRoomList = localStorage.roomList.split(';');
+							
+					//handle email body user details
+					var strEmailBody = 'Name: '+localStorage.userName+' \n';
+					strEmailBody += 'Surname: '+localStorage.userSurname+' \n';
+					strEmailBody += 'Email: '+localStorage.userEmail+' \n';
 				
-				for (var i=0;i<arrRoomList.length;i++) {
+					//Key questions
+					var strKeyQuestions = 'Solar Geyser Size: '+localStorage.sizeSolGeyser+'\r\n';				
+					strKeyQuestions += 'Solar Geyser Quantity: '+localStorage.QtySolGeyser+'\r\n';					
+					strKeyQuestions += 'Electric Geyser Size: '+localStorage.SizeElecGeyser+'\r\n';				
+					strKeyQuestions += 'Electric Geyser Quantity: '+localStorage.QtyElecGeyser+'\r\n';				
+					strKeyQuestions += 'Gas Geyer Size: '+localStorage.SizeGasGeyser+'\r\n';				
+					strKeyQuestions += 'Gas Geyer Quantity: '+localStorage.QtyGasGeyser+'\r\n';					
+					strKeyQuestions += 'Heat Pump: '+localStorage.IsHeatPump+'\r\n';					
+					strKeyQuestions += 'Geyser Blanket: '+localStorage.IsBlanket+'\r\n';					
+					strKeyQuestions += 'Stove Type: '+localStorage.StoveType+'\r\n';					
+					strKeyQuestions += 'Oven Type: '+localStorage.OvenType+'\r\n';
+				
+					//Appliances
+					var strRoomUsage = '';
+					var arrRoomDetail;
 					
-					var roomList = localStorage.getItem(arrRoomList[i]);
-					if (roomList!=null) {
-						arrRoomDetail = roomList.split(';');
-						strRoomUsage += ''+arrRoomList[i]+'\r\n';
-						strRoomUsage += 'Appliance\tQuantity\tNumber Items\r\n';
-						for (var j=0;j<arrRoomDetail.length;j++) {
-							if (arrRoomDetail[j]!="") {
-								var appDetail = arrRoomDetail[j].split(',');
-								if (appDetail[1]!='' && appDetail[2]!='') {
-									strRoomUsage += ''+appDetail[0].replace(/(\r\n|\n|\r)/gm,"")+' \t '+appDetail[1]+' \t '+appDetail[2]+'\r\n';
+					for (var i=0;i<arrRoomList.length;i++) {
+						
+						var roomList = localStorage.getItem(arrRoomList[i]);
+						if (roomList!=null) {
+							arrRoomDetail = roomList.split(';');
+							strRoomUsage += ''+arrRoomList[i]+'\r\n';
+							strRoomUsage += 'Appliance\tQuantity\tNumber Items\r\n';
+							for (var j=0;j<arrRoomDetail.length;j++) {
+								if (arrRoomDetail[j]!="") {
+									var appDetail = arrRoomDetail[j].split(',');
+									if (appDetail[1]!='' && appDetail[2]!='') {
+										strRoomUsage += ''+appDetail[0].replace(/(\r\n|\n|\r)/gm,"")+' \t '+appDetail[1]+' \t '+appDetail[2]+'\r\n';
+									}
 								}
 							}
+							strRoomUsage += '';
+							
 						}
-						strRoomUsage += '';
-						
-					}
-				}		
-				ClientDetail = strEmailBody;
-				KeyQuestions = strKeyQuestions;
-				RoomUsage = strRoomUsage;
+					}		
+					ClientDetail = strEmailBody;
+					KeyQuestions = strKeyQuestions;
+					RoomUsage = strRoomUsage;
+				}
+				else {
+					ClientDetail = strEmailBody;
+					KeyQuestions = "No usage capturing done";
+					RoomUsage = "No usage capturing done";
+				}
 			}
 			
 			function onPhotoDataSuccess(imageData) 
@@ -455,24 +465,6 @@
 					}
 				  }, 0);
 				  
-			}
-			
-			function androidNoPhoto() 
-			{
-				buildCsvFiles();
-				var KeyQuestions64 = window.btoa(KeyQuestions);
-				var RoomUsage64 = window.btoa(RoomUsage);
-				  
-						cordova.plugins.email.open({
-							to:      'alwyn.grobler@gmail.com',
-							subject: 'Solareff App Result',
-							body:    'aaa'
-							//attachments: 'base64:bill.jpg//'+imageData
-							//attachments: 'base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64,'base64:bill.jpg//'+imageData]
-							//attachments: ['base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64]
-						});
-						
-				alert('email done');
 			}
 			
 			function resetIndex()
