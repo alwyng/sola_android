@@ -354,7 +354,7 @@
 			
 			function capturePhoto() 
 			{
-				if (localStorage.getItem("roomList") != "null") {
+				if ("roomList" in localStorage) {
 					alert(localStorage.getItem("roomList"));
 					try
 					{
