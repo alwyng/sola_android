@@ -102,7 +102,7 @@
 								document.write('<div> &nbsp </div>');
 								document.write('<div> Total kWh: '+String(localStorage.kWh)+'</div>');
 								document.write('<div> &nbsp </div>');
-							
+								
 								document.write('<input type="button" class="button button-fill" onclick="capturePhoto()" value="Submit...">');
 								//document.write('<input type="button" class="button button-fill" onclick="androidNoPhoto()" value="Submit...">');
 								
@@ -389,87 +389,86 @@
 			
 			function buildCsvFiles()
 			{
-				if ("roomList" in localStorage) {
-					var arrRoomList = localStorage.roomList.split(';');
-							
-					//handle email body user details
-					var strEmailBody = 'Name: '+localStorage.userName+' \n';
-					strEmailBody += 'Surname: '+localStorage.userSurname+' \n';
-					strEmailBody += 'Email: '+localStorage.userEmail+' \n';
-				
-					//Key questions
-					var strKeyQuestions = 'Solar Geyser Size: '+localStorage.sizeSolGeyser+'\r\n';				
-					strKeyQuestions += 'Solar Geyser Quantity: '+localStorage.QtySolGeyser+'\r\n';					
-					strKeyQuestions += 'Electric Geyser Size: '+localStorage.SizeElecGeyser+'\r\n';				
-					strKeyQuestions += 'Electric Geyser Quantity: '+localStorage.QtyElecGeyser+'\r\n';				
-					strKeyQuestions += 'Gas Geyer Size: '+localStorage.SizeGasGeyser+'\r\n';				
-					strKeyQuestions += 'Gas Geyer Quantity: '+localStorage.QtyGasGeyser+'\r\n';					
-					strKeyQuestions += 'Heat Pump: '+localStorage.IsHeatPump+'\r\n';					
-					strKeyQuestions += 'Geyser Blanket: '+localStorage.IsBlanket+'\r\n';					
-					strKeyQuestions += 'Stove Type: '+localStorage.StoveType+'\r\n';					
-					strKeyQuestions += 'Oven Type: '+localStorage.OvenType+'\r\n';
-				
-					//Appliances
-					var strRoomUsage = '';
-					var arrRoomDetail;
-					
-					for (var i=0;i<arrRoomList.length;i++) {
+				var arrRoomList = localStorage.roomList.split(';');
 						
-						var roomList = localStorage.getItem(arrRoomList[i]);
-						if (roomList!=null) {
-							arrRoomDetail = roomList.split(';');
-							strRoomUsage += ''+arrRoomList[i]+'\r\n';
-							strRoomUsage += 'Appliance\tQuantity\tNumber Items\r\n';
-							for (var j=0;j<arrRoomDetail.length;j++) {
-								if (arrRoomDetail[j]!="") {
-									var appDetail = arrRoomDetail[j].split(',');
-									if (appDetail[1]!='' && appDetail[2]!='') {
-										strRoomUsage += ''+appDetail[0].replace(/(\r\n|\n|\r)/gm,"")+' \t '+appDetail[1]+' \t '+appDetail[2]+'\r\n';
-									}
+				//handle email body user details
+				var strEmailBody = 'Name: '+localStorage.userName+' \n';
+				strEmailBody += 'Surname: '+localStorage.userSurname+' \n';
+				strEmailBody += 'Email: '+localStorage.userEmail+' \n';
+			
+				//Key questions
+				var strKeyQuestions = 'Solar Geyser Size: '+localStorage.sizeSolGeyser+'\r\n';				
+				strKeyQuestions += 'Solar Geyser Quantity: '+localStorage.QtySolGeyser+'\r\n';					
+				strKeyQuestions += 'Electric Geyser Size: '+localStorage.SizeElecGeyser+'\r\n';				
+				strKeyQuestions += 'Electric Geyser Quantity: '+localStorage.QtyElecGeyser+'\r\n';				
+				strKeyQuestions += 'Gas Geyer Size: '+localStorage.SizeGasGeyser+'\r\n';				
+				strKeyQuestions += 'Gas Geyer Quantity: '+localStorage.QtyGasGeyser+'\r\n';					
+				strKeyQuestions += 'Heat Pump: '+localStorage.IsHeatPump+'\r\n';					
+				strKeyQuestions += 'Geyser Blanket: '+localStorage.IsBlanket+'\r\n';					
+				strKeyQuestions += 'Stove Type: '+localStorage.StoveType+'\r\n';					
+				strKeyQuestions += 'Oven Type: '+localStorage.OvenType+'\r\n';
+			
+				//Appliances
+				var strRoomUsage = '';
+				var arrRoomDetail;
+				
+				for (var i=0;i<arrRoomList.length;i++) {
+					
+					var roomList = localStorage.getItem(arrRoomList[i]);
+					if (roomList!=null) {
+						arrRoomDetail = roomList.split(';');
+						strRoomUsage += ''+arrRoomList[i]+'\r\n';
+						strRoomUsage += 'Appliance\tQuantity\tNumber Items\r\n';
+						for (var j=0;j<arrRoomDetail.length;j++) {
+							if (arrRoomDetail[j]!="") {
+								var appDetail = arrRoomDetail[j].split(',');
+								if (appDetail[1]!='' && appDetail[2]!='') {
+									strRoomUsage += ''+appDetail[0].replace(/(\r\n|\n|\r)/gm,"")+' \t '+appDetail[1]+' \t '+appDetail[2]+'\r\n';
 								}
 							}
-							strRoomUsage += '';
+						}
+						strRoomUsage += '';
+						
+					}
+				}		
+				
+				ClientDetail = strEmailBody;
+				KeyQuestions = strKeyQuestions;
+				RoomUsage = strRoomUsage;
+			}
+			
+			function onPhotoDataSuccess(imageData) 
+			{
+				if ("roomList" in localStorage) {
+					buildCsvFiles();
+					var KeyQuestions64 = window.btoa(KeyQuestions);
+					var RoomUsage64 = window.btoa(RoomUsage);
+					  
+					  setTimeout(function() {
+						try {
+							
+							cordova.plugins.email.open({
+								to:      'alwyn.grobler@gmail.com',
+								cc:      [],
+								bcc:     [],
+								subject: 'Solareff App Result',
+								body:    ClientDetail,
+								//attachments: 'base64:bill.jpg//'+imageData
+								//attachments: 'base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64,'base64:bill.jpg//'+imageData]
+								attachments: ['base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64,'base64:bill.jpg//'+imageData]
+							});
 							
 						}
-					}		
-					ClientDetail = strEmailBody;
-					KeyQuestions = strKeyQuestions;
-					RoomUsage = strRoomUsage;
+						catch(err) {
+							alert(err.message);
+						}
+					  }, 0);
 				}
 				else {
 					ClientDetail = strEmailBody;
 					KeyQuestions = "No usage capturing done";
 					RoomUsage = "No usage capturing done";
 				}
-			}
-			
-			function onPhotoDataSuccess(imageData) 
-			{
-				buildCsvFiles();
-				var KeyQuestions64 = window.btoa(KeyQuestions);
-				var RoomUsage64 = window.btoa(RoomUsage);
-				alert(RoomUsage);
-				  
-				  setTimeout(function() {
-					try {
-						
-						cordova.plugins.email.open({
-							to:      'alwyn.grobler@gmail.com',
-							cc:      [],
-							bcc:     [],
-							subject: 'Solareff App Result',
-							body:    ClientDetail,
-							//attachments: 'base64:bill.jpg//'+imageData
-							//attachments: 'base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64,'base64:bill.jpg//'+imageData]
-							attachments: ['base64:KeyQuestions.csv//'+KeyQuestions64,'base64:RoomUsage.csv//'+RoomUsage64,'base64:bill.jpg//'+imageData]
-						});
-						
-					}
-					catch(err) {
-						alert(err.message);
-					}
-				  }, 0);
-				  
 			}
 			
 			function resetIndex()
