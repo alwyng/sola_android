@@ -72,6 +72,12 @@ function load()
 
 function createRooms()
 {
+	if (localStorage.getItem("roomList")===null) {
+		roomList="";
+	} else {
+		roomList = localStorage.roomList;
+	}
+	
 	var table = document.getElementById("tblRooms");
 	table.innerHTML = "";
 	var arrStack = arrRooms;
@@ -88,9 +94,18 @@ function createRooms()
 				var cell = row.insertCell(j);
 				var btn = document.createElement('div');
 				btn.setAttribute('style','text-align:left;padding-left:5%');
-				btn.innerHTML = "<div style='display: inline-block;width: 95%'> <input type = 'button' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"; 
+				if (roomList.indexOf(arrStack[0].replace(/ /g,''))>-1) {
+					btn.innerHTML = "<div style='display: inline-block;width: 95%'> <input style='background-color: #4CAF50;' type = 'button' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"; 
+				} else {
+					btn.innerHTML = "<div style='display: inline-block;width: 95%'> <input type = 'button' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"; 
+				}
+			
 				if (iBtn>13) {
-					btn.innerHTML = "<div style='display: inline-block;width: 80%'> <input type = 'button' style='vertical-align:bottom' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"+'<div style="display:inline-block"><img src="../img/delete.gif" style="padding-left:60%;padding-right:40%;vertical-align:bottom" alt="Delete" onclick="removeRoom('+"'"+arrStack[0]+"'"+')"></div>'; 
+					if (roomList.indexOf(arrStack[0].replace(/ /g,''))>-1) {
+						btn.innerHTML = "<div style='display: inline-block;width: 80%'> <input style='background-color: #4CAF50;' type = 'button' style='vertical-align:bottom' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"+'<div style="display:inline-block"><img src="../img/delete.gif" style="padding-left:60%;padding-right:40%;vertical-align:bottom" alt="Delete" onclick="removeRoom('+"'"+arrStack[0]+"'"+')"></div>'; 
+					} else {
+						btn.innerHTML = "<div style='display: inline-block;width: 80%'> <input type = 'button' style='vertical-align:bottom' class='button button-fill' value = '"+arrStack[0]+"' onClick = 'gotoAdder(this.value)'></div>"+'<div style="display:inline-block"><img src="../img/delete.gif" style="padding-left:60%;padding-right:40%;vertical-align:bottom" alt="Delete" onclick="removeRoom('+"'"+arrStack[0]+"'"+')"></div>'; 
+					}
 				}
 
 				cell.appendChild(btn);
