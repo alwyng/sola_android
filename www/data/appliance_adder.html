@@ -11,7 +11,7 @@
 	    <link rel="stylesheet" href="../css/framework7.ios.css">
 	    <link rel="stylesheet" href="../css/framework7.ios.colors.css">
 	    <link rel="stylesheet" href="../css/kitchen-sink.css">
-	    <link rel="icon" href="../res/icon/img/logo.png">
+	    <link rel="icon" href="../img/backbutton.svg">
 	    <link rel="apple-touch-icon" href="../res/icon/img/logo.png">
 		<script src="../js/recalc.js"></script>
 		<script src="../js/adder.js"></script>
@@ -36,16 +36,16 @@
 	        </div>
 	        <div class="pages navbar-through toolbar-through">
           		<div class="page">
-            		<div class="page-content">
+								<div style="margin-top: 44px;">
+									<form class="center" name="frmKwh" action="">
+										<input size="9" class="kwhstyle" type="text" name="txtKwh" disabled>
+									</form>
+								</div>
+            		<div class="page-content-kwh">
             			<div class="app">
 						<!-- <a href="http://www.solareff.co.za">
 							<img style='width:100%;height:100%;object-fit: contain;' src="../img/logo.jpg">
 						</a> -->
-						<div class="right sliding">
-							<form class="center" name="frmKwh" action="">
-								<input size="9" class="kwhstyle" type="text" name="txtKwh" disabled>
-							</form>
-						</div>
 						<br>
 						<br>
 						<div style="height: 5%; width: 100%; box-sizing: border-box; padding-left:25%;; padding-right:25%;">
@@ -59,7 +59,7 @@
 							<input type="button" name="btnBack" value="Back">
 						</a>
 						<br><br>-->
-						<table id="tblApp" style="padding-left:2%;font-size: 1.3em;">
+						<table id="tblApp" align="center" style="padding-left:2%;font-size: 1.3em;">
 							<tr style="background-color:white">
 								<script>
 									if (localStorage.getItem(localStorage.CurrentApp.replace(/ /g,''))==null) {
