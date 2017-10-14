@@ -1,17 +1,17 @@
 /**
  * Framework7 1.4.2
  * Full Featured Mobile HTML Framework For Building iOS & Android Apps
- * 
+ *
  * iOS Theme
  *
  * http://www.idangero.us/framework7
- * 
+ *
  * Copyright 2016, Vladimir Kharlampidi
  * The iDangero.us
  * http://www.idangero.us/
- * 
+ *
  * Licensed under MIT
- * 
+ *
  * Released on: February 27, 2016
  */
 html,
@@ -2007,7 +2007,8 @@ i.icon {
 i.icon.icon-back {
   width: 12px;
   height: 20px;
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");
+  /*background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2012%2020'%3E%3Cpath%20d%3D'M10%2C0l2%2C2l-8%2C8l8%2C8l-2%2C2L0%2C10L10%2C0z'%20fill%3D'%23007aff'%2F%3E%3C%2Fsvg%3E");*/
+  background-image: url("../img/backbutton.svg");
 }
 i.icon.icon-forward {
   width: 12px;
@@ -3120,8 +3121,8 @@ html:not(.watch-active-state) .button:active,
   color: #fff;
   background: #d2232a;
   border: none;
-/*  height: 100%; 
-  width: 100%; 
+/*  height: 100%;
+  width: 100%;
   box-sizing: border-box;*/
 }
 html:not(.watch-active-state) .button.button-fill:active,

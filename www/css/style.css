@@ -38,7 +38,7 @@ form.center {
 .kwhstyle {
 	text-align: center;
 	width: 100%;
-	font-size:170%;
+	font-size:250%;
 	font-family: monospace;
 	font-weight: bold;
 	color: white;
@@ -47,4 +47,20 @@ form.center {
 
 .spacer {
 	background: #f7f7f8;
+}
+
+.content-block-address {
+  margin: 5px 0;
+  padding: 0 15px;
+  color: #6d6d72;
+  box-sizing: border-box;
+}
+
+.page-content-kwh {
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  box-sizing: border-box;
+  height: 80%;
+  position: relative;
+  z-index: 1;
 }
